@@ -7,7 +7,7 @@ class LeafTokenBuilder:
     def __init__(self, dependencyHelper, token):
         """ Initialize the Token Builder """
         self.dependencyHelper = dependencyHelper
-        self.token = token
+        self.token = str if token is None else token
         
     def buildFromMatch(self, match):
         """ Build from the given match """

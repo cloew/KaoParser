@@ -12,7 +12,7 @@ from kao_decorators import proxy_for
 class Grammar(Enum):
     """ Represents the Grammar to use when parsing text """
     
-    def __init__(self, originalRegEx, token=str):
+    def __init__(self, originalRegEx, token=None):
         """ Initialize with the value and token wrapper to use """
         self.dependencyHelper = DependencyHelper(originalRegEx, self.__class__)
         self.regexHelper = RegexHelper(originalRegEx, self.dependencyHelper)
