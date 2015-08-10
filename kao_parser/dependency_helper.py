@@ -18,3 +18,11 @@ class DependencyHelper:
         """ Return this rule's dependencies """
         results = dependencyRegEx.findall(self.originalRegEx)
         return [result[1:-1] for result in results]
+        
+    @property
+    def numberOfGroups(self):
+        """ Return the number of groups """
+        numberOfChildGroups = sum([dependency.numberOfGroups for dependency in self.dependencies])
+        numberOfGroups = numberOfChildGroups + len(self.dependencies)
+        # print(numberOfGroups)
+        return numberOfGroups
