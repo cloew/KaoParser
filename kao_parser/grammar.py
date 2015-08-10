@@ -1,15 +1,18 @@
+from .regex_helper import RegexHelper
+
 from enum import Enum
-from kao_decorators import lazy_property
+from kao_decorators import lazy_property, proxy_for
 import re
 
 dependencyRegEx = re.compile("<[a-zA-Z]+>")
 
+@proxy_for("regexHelper", ["regex"])
 class Grammar(Enum):
     """ Represents the Grammar to use when parsing text """
     
     def __init__(self, value, token=str):
         """ Initialize with the value and token wrapper to use """
-        self.regexWithDependencies = value
+        self.regexHelper = RegexHelper(value, self)
         self.token = token
         
     def match(self, text):
@@ -21,24 +24,9 @@ class Grammar(Enum):
             return None
         
     @lazy_property
-    def regexString(self):
-        """ Return the proper regex string """
-        regexString = self.regexWithDependencies
-        for dependency in self.dependencies:
-            dependencySection = "<{0}>".format(dependency)
-            dependencyRegEx = "({0})".format(self.sibling(dependency).regexString)
-            regexString = regexString.replace(dependencySection, dependencyRegEx)
-        return regexString
-        
-    @lazy_property
-    def regex(self):
-        """ Compile and return this regex """
-        return re.compile(self.regexString)
-        
-    @lazy_property
     def dependencies(self):
         """ Return this rule's dependencies """
-        results = dependencyRegEx.findall(self.regexWithDependencies)
+        results = dependencyRegEx.findall(self.regexHelper.originalRegEx)
         return [result[1:-1] for result in results]
         
     def sibling(self, name):
