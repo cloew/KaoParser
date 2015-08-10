@@ -7,8 +7,6 @@ class TokenBuilder:
     def __init__(self, dependencyHelper, token):
         """ Initialize the Token Builder """
         self.dependencyHelper = dependencyHelper
-        if token is None:
-            token = lambda *args: list(args)
         self.token = token
         
     def buildFromMatch(self, match):

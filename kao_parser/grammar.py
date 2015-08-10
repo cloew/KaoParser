@@ -2,6 +2,7 @@ from .dependency_helper import DependencyHelper
 from .regex_helper import RegexHelper
 from .token_builder import TokenBuilder
 from .leaf_token_builder import LeafTokenBuilder
+from .passthrough import Passthrough
 
 from enum import Enum
 from kao_decorators import proxy_for
@@ -12,7 +13,7 @@ from kao_decorators import proxy_for
 class Grammar(Enum):
     """ Represents the Grammar to use when parsing text """
     
-    def __init__(self, originalRegEx, token=None):
+    def __init__(self, originalRegEx, token=Passthrough):
         """ Initialize with the value and token wrapper to use """
         self.dependencyHelper = DependencyHelper(originalRegEx, self.__class__)
         self.regexHelper = RegexHelper(originalRegEx, self.dependencyHelper)
