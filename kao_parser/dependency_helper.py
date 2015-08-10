@@ -23,6 +23,4 @@ class DependencyHelper:
     def numberOfGroups(self):
         """ Return the number of groups """
         numberOfChildGroups = sum([dependency.numberOfGroups for dependency in self.dependencies])
-        numberOfGroups = numberOfChildGroups + len(self.dependencies)
-        # print(numberOfGroups)
-        return numberOfGroups
+        return numberOfChildGroups + len(self.dependencies)
